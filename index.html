@@ -1,0 +1,1863 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ПромПечать Контур | Внутренний портал клиентов</title>
+  <meta name="description" content="Закрытый клиентский портал типографии: услуги, управление производством, SLA, качество, оборудование и регламент заказов." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #070a11;
+      --bg-soft: #0d1321;
+      --surface: #111a2c;
+      --surface-2: #16233b;
+      --surface-3: #1c2d4b;
+      --text: #edf3ff;
+      --muted: #9babca;
+      --accent: #41e0c9;
+      --accent-2: #76a9ff;
+      --warn: #ffc36a;
+      --danger: #ff8a8a;
+      --line: rgba(161, 186, 227, 0.22);
+      --radius: 18px;
+      --radius-sm: 12px;
+      --shadow-lg: 0 24px 60px rgba(4, 8, 18, 0.45);
+      --shadow-md: 0 10px 30px rgba(6, 12, 27, 0.35);
+      --max: 1180px;
+      --section-pad: clamp(64px, 10vw, 120px);
+      --header-h: 78px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Manrope", sans-serif;
+      color: var(--text);
+      background: radial-gradient(1200px 560px at -10% -20%, rgba(57, 91, 166, 0.28), transparent 70%),
+        radial-gradient(1000px 480px at 110% -10%, rgba(45, 171, 185, 0.2), transparent 68%),
+        linear-gradient(180deg, #060910 0%, #070d17 55%, #0a1220 100%);
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: auto;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      filter: blur(70px);
+      opacity: 0.32;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    body::before {
+      left: -220px;
+      top: 20vh;
+      background: #3d5fb0;
+      animation: driftA 16s ease-in-out infinite alternate;
+    }
+
+    body::after {
+      right: -220px;
+      top: 5vh;
+      background: #1f8b8d;
+      animation: driftB 18s ease-in-out infinite alternate;
+    }
+
+    @keyframes driftA {
+      from { transform: translateY(-28px) scale(1); }
+      to { transform: translateY(28px) scale(1.12); }
+    }
+
+    @keyframes driftB {
+      from { transform: translateY(18px) scale(1.06); }
+      to { transform: translateY(-24px) scale(1); }
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(100% - 32px, var(--max));
+      margin-inline: auto;
+    }
+
+    .section {
+      padding: var(--section-pad) 0;
+    }
+
+    .section-head {
+      max-width: 760px;
+      margin-bottom: 28px;
+    }
+
+    .section-head h2 {
+      margin: 0 0 10px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(1.7rem, 4vw, 2.55rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 14px;
+      color: #b9c9ea;
+      font-weight: 600;
+      font-size: 0.86rem;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 26px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent));
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 1200;
+      background: rgba(7, 10, 17, 0.78);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(157, 184, 230, 0.2);
+    }
+
+    .topbar-wrap {
+      min-height: var(--header-h);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      row-gap: 10px;
+      padding: 10px 0;
+    }
+
+    .brand {
+      min-width: 0;
+    }
+
+    .brand-title {
+      margin: 0;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .brand-subtitle {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 0.76rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .portal-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #d9ecff;
+      border: 1px solid rgba(104, 145, 216, 0.45);
+      background: linear-gradient(135deg, rgba(79, 121, 194, 0.28), rgba(31, 154, 147, 0.2));
+      box-shadow: inset 0 0 0 1px rgba(156, 195, 255, 0.12);
+      white-space: nowrap;
+    }
+
+    .portal-badge::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 6px rgba(65, 224, 201, 0.15), 0 0 20px rgba(65, 224, 201, 0.5);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2); opacity: 0.7; }
+    }
+
+    .menu {
+      width: 100%;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: thin;
+      padding-bottom: 2px;
+    }
+
+    .menu a {
+      position: relative;
+      flex: 0 0 auto;
+      white-space: nowrap;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 0.86rem;
+      color: #b4c2dd;
+      border: 1px solid transparent;
+      transition: 0.28s ease;
+    }
+
+    .menu a:hover,
+    .menu a:focus-visible,
+    .menu a.active {
+      color: #f4f8ff;
+      background: rgba(61, 99, 171, 0.22);
+      border-color: rgba(125, 162, 228, 0.35);
+      outline: none;
+    }
+
+    .hero {
+      padding-top: clamp(18px, 4vw, 40px);
+      padding-bottom: clamp(22px, 4.4vw, 44px);
+    }
+
+    .hero-shell {
+      position: relative;
+      overflow: hidden;
+      border-radius: 28px;
+      border: 1px solid var(--line);
+      background: linear-gradient(160deg, rgba(16, 26, 44, 0.96), rgba(12, 20, 34, 0.86));
+      box-shadow: var(--shadow-lg);
+      padding: clamp(14px, 2.8vw, 26px);
+      isolation: isolate;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    .hero-shell::before {
+      content: "";
+      position: absolute;
+      width: 420px;
+      aspect-ratio: 1;
+      right: -120px;
+      top: -150px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(80, 126, 214, 0.32), transparent 70%);
+      z-index: -1;
+    }
+
+    .hero-shell::after {
+      content: "";
+      position: absolute;
+      inset: -180% auto auto -20%;
+      width: 40%;
+      height: 360%;
+      background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+      transform: rotate(12deg);
+      animation: sweep 8s linear infinite;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    @keyframes sweep {
+      from { transform: translateX(-280%) rotate(12deg); }
+      to { transform: translateX(420%) rotate(12deg); }
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .hero h1 {
+      margin: 0 0 14px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(1.38rem, 3.3vw, 2.25rem);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      max-width: 22ch;
+    }
+
+    .hero .lead {
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(0.86rem, 1.05vw, 0.96rem);
+      max-width: 62ch;
+    }
+
+    .hero-actions {
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 10px 18px;
+      border-radius: 11px;
+      border: 1px solid transparent;
+      font-family: "Manrope", sans-serif;
+      font-size: 0.93rem;
+      font-weight: 700;
+      transition: transform 0.24s ease, box-shadow 0.24s ease, background 0.24s ease;
+      cursor: pointer;
+    }
+
+    .btn::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -120%;
+      width: 70%;
+      height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+      transform: skewX(-20deg);
+      transition: left 0.6s ease;
+    }
+
+    .btn:hover::after,
+    .btn:focus-visible::after {
+      left: 170%;
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid rgba(118, 169, 255, 0.55);
+      outline-offset: 2px;
+    }
+
+    .btn-primary {
+      color: #06121a;
+      background: linear-gradient(135deg, var(--accent), #86ffe9);
+      box-shadow: 0 10px 28px rgba(65, 224, 201, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(65, 224, 201, 0.35);
+    }
+
+    .btn-secondary {
+      background: rgba(36, 52, 83, 0.65);
+      color: #e6efff;
+      border-color: rgba(129, 160, 220, 0.34);
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      background: rgba(45, 67, 107, 0.7);
+    }
+
+    .hero-kpis {
+      margin-top: 10px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+
+    .kpi-item {
+      border-radius: 12px;
+      border: 1px solid rgba(131, 162, 222, 0.24);
+      background: linear-gradient(180deg, rgba(24, 38, 61, 0.9), rgba(18, 30, 49, 0.75));
+      padding: 8px;
+      box-shadow: inset 0 1px 0 rgba(199, 221, 255, 0.07);
+    }
+
+    .kpi-item strong {
+      display: block;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 0.86rem;
+      margin-bottom: 4px;
+    }
+
+    .kpi-item span {
+      color: #9cb0cf;
+      font-size: 0.7rem;
+      line-height: 1.35;
+    }
+
+    .hero-side {
+      position: relative;
+      border-radius: 16px;
+      border: 1px solid rgba(130, 161, 221, 0.28);
+      background: linear-gradient(160deg, rgba(21, 34, 56, 0.92), rgba(17, 27, 45, 0.82));
+      padding: 12px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .hero-side h3 {
+      margin: 0 0 12px;
+      font-size: 0.88rem;
+      letter-spacing: 0.01em;
+    }
+
+    .hero-side ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 5px;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .hero-side li {
+      display: grid;
+      grid-template-columns: 10px 1fr;
+      gap: 8px;
+      align-items: start;
+    }
+
+    .hero-side li::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      margin-top: 6px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 10px rgba(65, 224, 201, 0.45);
+    }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    /* Защита от переполнения текста в nested-grid карточках */
+    .hero-grid > *,
+    .services-grid > *,
+    .flow-list > *,
+    .planning-grid > *,
+    .quality-grid > *,
+    .order-grid > *,
+    .kpi-grid > *,
+    .roles-grid > *,
+    .contacts-grid > * {
+      min-width: 0;
+    }
+
+    .services-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .card {
+      position: relative;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: linear-gradient(170deg, rgba(18, 29, 49, 0.93), rgba(13, 22, 38, 0.86));
+      padding: 20px;
+      box-shadow: var(--shadow-md);
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(147, 179, 238, 0.5);
+      box-shadow: 0 18px 30px rgba(5, 12, 24, 0.45);
+    }
+
+    .service-card h3 {
+      margin: 0 0 8px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1.04rem;
+    }
+
+    .service-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .pill {
+      margin-top: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border: 1px solid rgba(131, 164, 223, 0.35);
+      background: rgba(34, 49, 77, 0.55);
+      color: #d0dffd;
+      border-radius: 999px;
+      font-size: 0.77rem;
+      font-weight: 600;
+      padding: 6px 10px;
+    }
+
+    .flow-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .flow-step {
+      position: relative;
+      border-radius: 14px;
+      border: 1px solid rgba(134, 166, 226, 0.3);
+      background: linear-gradient(165deg, rgba(18, 30, 51, 0.95), rgba(13, 23, 40, 0.9));
+      padding: 16px 16px 16px 52px;
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+
+    .flow-step::before {
+      content: attr(data-step);
+      position: absolute;
+      left: 14px;
+      top: 14px;
+      width: 28px;
+      height: 28px;
+      border-radius: 9px;
+      display: grid;
+      place-items: center;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #04131a;
+      background: linear-gradient(140deg, var(--accent), #99ffef);
+      box-shadow: 0 6px 15px rgba(65, 224, 201, 0.28);
+    }
+
+    .flow-step h3 {
+      margin: 0 0 6px;
+      font-size: 1rem;
+    }
+
+    .flow-step p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .planning-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .planning-card {
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: linear-gradient(165deg, rgba(18, 29, 49, 0.95), rgba(14, 24, 41, 0.84));
+      padding: 20px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .planning-card h3 {
+      margin: 0 0 10px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1.06rem;
+    }
+
+    .planning-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.91rem;
+    }
+
+    .chips {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(135, 168, 228, 0.35);
+      background: rgba(34, 50, 80, 0.58);
+      color: #d4e0fa;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      white-space: normal;
+      max-width: 100%;
+    }
+
+    .kpi-grid {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .kpi-card {
+      border-radius: 12px;
+      border: 1px solid rgba(134, 165, 221, 0.32);
+      background: linear-gradient(180deg, rgba(25, 39, 63, 0.88), rgba(18, 30, 50, 0.72));
+      padding: 12px;
+    }
+
+    .kpi-card strong {
+      display: block;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+
+    .kpi-card span {
+      color: var(--muted);
+      font-size: 0.79rem;
+      line-height: 1.4;
+    }
+
+    .roles-grid {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .role {
+      border-radius: 12px;
+      border: 1px solid rgba(132, 166, 227, 0.3);
+      background: rgba(29, 45, 73, 0.52);
+      padding: 12px;
+    }
+
+    .role strong {
+      display: block;
+      font-size: 0.95rem;
+      margin-bottom: 3px;
+    }
+
+    .role span {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .planning-card p,
+    .kpi-card span,
+    .role span,
+    .kpi-item span,
+    .hero-side li,
+    .chip,
+    .acc-content li,
+    .check-list li,
+    .contact-item p {
+      overflow-wrap: anywhere;
+    }
+
+    .hint {
+      margin: 12px 0 0;
+      color: #c0d0ed;
+      font-size: 0.86rem;
+      border-left: 2px solid rgba(118, 169, 255, 0.7);
+      padding-left: 10px;
+    }
+
+    .quality-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .accordion {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .acc-item {
+      border-radius: 12px;
+      border: 1px solid rgba(138, 171, 230, 0.32);
+      background: rgba(26, 39, 62, 0.64);
+      overflow: clip;
+    }
+
+    .acc-trigger {
+      width: 100%;
+      border: 0;
+      margin: 0;
+      padding: 13px 14px;
+      text-align: left;
+      font-family: "Manrope", sans-serif;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text);
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .acc-icon {
+      color: #9fb2d7;
+      transition: transform 0.25s ease;
+    }
+
+    .acc-item.active .acc-icon {
+      transform: rotate(180deg);
+      color: var(--accent);
+    }
+
+    .acc-panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.28s ease;
+    }
+
+    .acc-content {
+      padding: 0 14px 14px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .acc-content ul {
+      margin: 8px 0 0;
+      padding-left: 18px;
+    }
+
+    .table-wrap {
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      overflow-x: auto;
+      background: linear-gradient(165deg, rgba(16, 27, 46, 0.95), rgba(12, 21, 37, 0.9));
+      box-shadow: var(--shadow-md);
+    }
+
+    table {
+      width: 100%;
+      min-width: 700px;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid rgba(144, 173, 228, 0.22);
+      padding: 13px 14px;
+      text-align: left;
+      vertical-align: top;
+      font-size: 0.9rem;
+    }
+
+    th {
+      color: #dbe8ff;
+      font-size: 0.82rem;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      background: rgba(37, 58, 92, 0.38);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .urgency-note {
+      margin-top: 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 188, 98, 0.3);
+      background: rgba(85, 61, 29, 0.28);
+      color: #ffdca8;
+      padding: 11px 12px;
+      font-size: 0.88rem;
+    }
+
+    .order-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .check-list {
+      margin: 12px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .check-list li {
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      gap: 8px;
+      align-items: start;
+    }
+
+    .check-list li::before {
+      content: "✓";
+      display: grid;
+      place-items: center;
+      width: 18px;
+      height: 18px;
+      margin-top: 1px;
+      border-radius: 50%;
+      color: #03161b;
+      font-weight: 800;
+      font-size: 0.72rem;
+      background: linear-gradient(140deg, var(--accent), #9bfff0);
+      box-shadow: 0 4px 14px rgba(65, 224, 201, 0.36);
+    }
+
+    .form-box {
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: linear-gradient(165deg, rgba(17, 29, 49, 0.95), rgba(12, 22, 38, 0.86));
+      box-shadow: var(--shadow-md);
+      padding: 20px;
+    }
+
+    .form-box h3 {
+      margin: 0;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1.07rem;
+    }
+
+    form {
+      margin-top: 12px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+
+    label {
+      font-size: 0.83rem;
+      color: #d2def7;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid rgba(136, 169, 228, 0.35);
+      background: rgba(20, 33, 55, 0.74);
+      color: #e9f1ff;
+      font-family: "Manrope", sans-serif;
+      font-size: 0.92rem;
+      padding: 11px 12px;
+      transition: border-color 0.24s ease, box-shadow 0.24s ease;
+    }
+
+    textarea {
+      min-height: 102px;
+      resize: vertical;
+    }
+
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+      outline: none;
+      border-color: rgba(136, 250, 229, 0.8);
+      box-shadow: 0 0 0 3px rgba(67, 224, 204, 0.18);
+    }
+
+    .form-note {
+      color: var(--muted);
+      font-size: 0.82rem;
+      margin: 8px 0 0;
+    }
+
+    /* Компактный масштаб для требуемых секций */
+    #planning.section {
+      padding-top: clamp(44px, 6vw, 76px);
+      padding-bottom: clamp(44px, 6vw, 76px);
+    }
+
+    #order.section {
+      padding-top: clamp(34px, 4.8vw, 58px);
+      padding-bottom: clamp(34px, 4.8vw, 58px);
+    }
+
+    #planning .section-head h2 {
+      font-size: clamp(1.45rem, 3.1vw, 2.15rem);
+    }
+
+    #order .section-head h2 {
+      font-size: clamp(1.28rem, 2.5vw, 1.9rem);
+    }
+
+    #planning .section-head p {
+      font-size: 0.92rem;
+    }
+
+    #order .section-head p {
+      font-size: 0.86rem;
+    }
+
+    #planning .planning-card {
+      padding: 16px;
+      border-radius: 14px;
+    }
+
+    #order .planning-card,
+    #order .form-box {
+      padding: 13px;
+      border-radius: 12px;
+    }
+
+    #planning .planning-card h3 {
+      margin-bottom: 8px;
+      font-size: 0.98rem;
+    }
+
+    #order .planning-card h3,
+    #order .form-box h3 {
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+    }
+
+    #planning .planning-card p {
+      font-size: 0.86rem;
+    }
+
+    #order .planning-card p {
+      font-size: 0.82rem;
+    }
+
+    #planning .chips {
+      margin-top: 10px;
+      gap: 6px;
+    }
+
+    #planning .chip {
+      padding: 5px 8px;
+      font-size: 0.73rem;
+    }
+
+    #planning .kpi-grid {
+      margin-top: 10px;
+      gap: 8px;
+    }
+
+    #planning .kpi-card {
+      padding: 10px;
+    }
+
+    #planning .kpi-card strong {
+      font-size: 0.92rem;
+    }
+
+    #planning .kpi-card span {
+      font-size: 0.74rem;
+    }
+
+    #planning .roles-grid {
+      margin-top: 10px;
+      gap: 8px;
+    }
+
+    #planning .role {
+      padding: 10px;
+    }
+
+    #planning .role strong {
+      font-size: 0.88rem;
+    }
+
+    #planning .role span {
+      font-size: 0.8rem;
+    }
+
+    #planning .hint {
+      margin-top: 10px;
+      font-size: 0.8rem;
+    }
+
+    #order .check-list {
+      margin-top: 6px;
+      gap: 5px;
+      font-size: 0.8rem;
+    }
+
+    #order .check-list li {
+      grid-template-columns: 16px 1fr;
+    }
+
+    #order .check-list li::before {
+      width: 16px;
+      height: 16px;
+      font-size: 0.66rem;
+    }
+
+    #order .accordion {
+      margin-top: 8px;
+    }
+
+    #order .acc-trigger {
+      padding: 10px 11px;
+      font-size: 0.84rem;
+    }
+
+    #order .acc-content {
+      padding: 0 11px 10px;
+      font-size: 0.79rem;
+    }
+
+    #order .form-note {
+      font-size: 0.74rem;
+    }
+
+    #order form {
+      margin-top: 8px;
+      gap: 8px;
+    }
+
+    #order label {
+      font-size: 0.74rem;
+    }
+
+    #order input,
+    #order select,
+    #order textarea {
+      font-size: 0.8rem;
+      padding: 8px 9px;
+    }
+
+    #order textarea {
+      min-height: 72px;
+    }
+
+    #order .btn {
+      min-height: 38px;
+      padding: 8px 12px;
+      font-size: 0.82rem;
+    }
+
+    .contacts-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .contact-item {
+      border-radius: 12px;
+      border: 1px solid rgba(136, 169, 227, 0.33);
+      background: linear-gradient(170deg, rgba(21, 35, 59, 0.92), rgba(15, 25, 41, 0.88));
+      padding: 14px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .contact-item strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 0.93rem;
+    }
+
+    .contact-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1400;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: rgba(3, 8, 16, 0.72);
+      backdrop-filter: blur(6px);
+    }
+
+    .modal.active {
+      display: flex;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .modal-card {
+      width: min(100%, 420px);
+      border-radius: 14px;
+      border: 1px solid rgba(141, 171, 230, 0.38);
+      background: linear-gradient(165deg, rgba(19, 33, 57, 0.96), rgba(12, 22, 38, 0.92));
+      padding: 20px;
+      box-shadow: var(--shadow-lg);
+      transform: translateY(8px) scale(0.98);
+      animation: popIn 0.25s ease forwards;
+    }
+
+    .modal-card h3 {
+      margin: 0 0 8px;
+      font-family: "Space Grotesk", sans-serif;
+    }
+
+    .modal-card p {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes popIn {
+      from { transform: translateY(8px) scale(0.98); opacity: 0; }
+      to { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      will-change: opacity, transform;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .stagger > * {
+      transition-delay: calc(var(--i, 0) * 70ms);
+    }
+
+    @media (min-width: 720px) {
+      .topbar-wrap {
+        flex-wrap: nowrap;
+        padding: 0;
+      }
+
+      .menu {
+        width: auto;
+        overflow: visible;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1.34fr 0.66fr;
+        gap: 12px;
+      }
+
+      .services-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .flow-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .planning-grid,
+      .order-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .roles-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .quality-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .contacts-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .hero h1 {
+        font-size: clamp(1.52rem, 2.2vw, 2.05rem);
+      }
+
+      .services-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .flow-list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .roles-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .contacts-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 1360px) {
+      .roles-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Шапка: бренд, статус закрытого портала и навигация по якорям -->
+  <header class="topbar">
+    <div class="container topbar-wrap">
+      <div class="brand">
+        <p class="brand-subtitle">Производственная типография для B2B-заказов</p>
+      </div>
+      <span class="portal-badge">Внутренний портал / только для клиентов по договору</span>
+      <nav class="menu" aria-label="Разделы лендинга">
+        <a href="#services">Услуги</a>
+        <a href="#production">Производство</a>
+        <a href="#planning">Управление</a>
+        <a href="#quality">Качество</a>
+        <a href="#equipment">Оборудование</a>
+        <a href="#sla">Сроки и SLA</a>
+        <a href="#order">Заказ</a>
+        <a href="#contacts">Контакты</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero: позиционирование, CTA, ключевые показатели -->
+    <section class="hero" id="hero">
+      <div class="container">
+        <div class="hero-shell reveal" id="heroShell">
+          <div class="hero-grid">
+            <div>
+              <p class="eyebrow">Закрытый производственный контур</p>
+              <h1>Типография с управляемыми сроками и прозрачной производственной дисциплиной</h1>
+              <p class="lead">
+                Печатаем коммерческую полиграфию и упаковку для корпоративных заказчиков. Работа строится через план-график,
+                контроль узких мест, подтверждение SLA и фиксированные контрольные точки по качеству.
+              </p>
+              <div class="hero-actions">
+                <a class="btn btn-primary" href="#order">Оставить заявку</a>
+                <a class="btn btn-secondary" href="#" id="priceStub">Скачать прайс</a>
+              </div>
+              <div class="hero-kpis">
+                <div class="kpi-item">
+                  <strong>до 180 000 листов/сутки</strong>
+                  <span>Суммарная мощность по участкам</span>
+                </div>
+                <div class="kpi-item">
+                  <strong>2 смены × 10 часов</strong>
+                  <span>Пн-Сб, оперативный резерв на срочные окна</span>
+                </div>
+                <div class="kpi-item">
+                  <strong>OEE: 78%</strong>
+                  <span>Средний показатель эффективности оборудования</span>
+                </div>
+                <div class="kpi-item">
+                  <strong>95% заказов в срок</strong>
+                  <span>On-time delivery за последний месяц</span>
+                </div>
+              </div>
+            </div>
+            <aside class="hero-side">
+              <h3>Параметры производственного режима</h3>
+              <ul>
+                <li>Минимальный тираж: от 100 экз. для листовой продукции, от 500 шт. для упаковки.</li>
+                <li>Базовый горизонт планирования: 2 недели, диспетчерская корректировка ежедневно.</li>
+                <li>Среднее время переналадки: 24 минуты на листовом участке.</li>
+                <li>Доля брака: 1,6% за квартал при целевом уровне не выше 2%.</li>
+                <li>SLA подтверждается после проверки макета и загрузки оборудования.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Услуги -->
+    <section class="section" id="services">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Продуктовый контур</p>
+          <h2>Услуги</h2>
+          <p>Работаем по регламенту: фиксированные требования к входящим файлам, техкарты, SLA и контроль качества на выходе.</p>
+        </div>
+        <div class="grid services-grid stagger">
+          <article class="card service-card reveal" style="--i:0;">
+            <h3>Визитки</h3>
+            <p>Цифровая и офсетная печать 300-450 г/м², ламинация, скругление, корпоративные стандарты бренда.</p>
+            <span class="pill">Тираж: от 200 экз.</span>
+          </article>
+          <article class="card service-card reveal" style="--i:1;">
+            <h3>Буклеты</h3>
+            <p>Форматы A4/A5, 1-2 фальца, полноцвет, плотность 115-200 г/м², стабильный цвет в тираже.</p>
+            <span class="pill">Тираж: от 300 экз.</span>
+          </article>
+          <article class="card service-card reveal" style="--i:2;">
+            <h3>Каталоги</h3>
+            <p>Скрепка, КБС, постраничный контроль сборки, подбор бумаги и отделки под задачу клиента.</p>
+            <span class="pill">Тираж: от 150 экз.</span>
+          </article>
+          <article class="card service-card reveal" style="--i:3;">
+            <h3>Упаковка</h3>
+            <p>Картонная и кашированная упаковка, вырубка, биговка, тестовая сборка и контроль геометрии.</p>
+            <span class="pill">Тираж: от 500 шт.</span>
+          </article>
+          <article class="card service-card reveal" style="--i:4;">
+            <h3>Широкоформатная печать</h3>
+            <p>Постеры, плакаты, POSM, витринные материалы, точные сроки для рекламных кампаний.</p>
+            <span class="pill">Ширина печати: до 1600 мм</span>
+          </article>
+          <article class="card service-card reveal" style="--i:5;">
+            <h3>Постпечатная обработка</h3>
+            <p>Ламинация, лакирование, тиснение, фальцовка, комплектация и упаковка готовых партий.</p>
+            <span class="pill">SLA участка: 8-24 часа</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Производство -->
+    <section class="section" id="production">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Поток операций</p>
+          <h2>Производство</h2>
+          <p>Производственный маршрут фиксируется в карте заказа: от входного контроля до упаковки и отгрузки.</p>
+        </div>
+        <div class="flow-list stagger">
+          <article class="flow-step reveal" style="--i:0;" data-step="1">
+            <h3>Приём заказа</h3>
+            <p>Проверка ТЗ, срока, тиража, материалов, обязательных документов и окна под запуск в смену.</p>
+          </article>
+          <article class="flow-step reveal" style="--i:1;" data-step="2">
+            <h3>Препресс</h3>
+            <p>Preflight, цветопроба, выпуск техкарты, проверка файлов и передача диспетчеру на планирование.</p>
+          </article>
+          <article class="flow-step reveal" style="--i:2;" data-step="3">
+            <h3>Печать</h3>
+            <p>Запуск по план-графику, контроль регистра, плотности и стабильности цвета в рамках допуска.</p>
+          </article>
+          <article class="flow-step reveal" style="--i:3;" data-step="4">
+            <h3>Постпечатная обработка</h3>
+            <p>Резка, фальцовка, ламинация, вырубка, сборка комплектов согласно производственной карте.</p>
+          </article>
+          <article class="flow-step reveal" style="--i:4;" data-step="5">
+            <h3>ОТК</h3>
+            <p>Выборочный контроль AQL, проверка критичных параметров и выпуск протокола партии.</p>
+          </article>
+          <article class="flow-step reveal" style="--i:5;" data-step="6">
+            <h3>Упаковка и отгрузка</h3>
+            <p>Маркировка, акт комплектации, передача на склад и подготовка к выдаче/доставке.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Планирование и управление -->
+    <section class="section" id="planning">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Диспетчеризация и MRP</p>
+          <h2>Планирование и управление</h2>
+          <p>Приоритеты формируются по сроку отгрузки, маржинальности и риску перегрузки узких мест.</p>
+        </div>
+        <div class="planning-grid">
+          <article class="planning-card reveal">
+            <h3>План-график и контроль узких мест</h3>
+            <p>
+              MRP-подход: недельный мастер-план, посменный график и ежедневный диспетчерский пересмотр статусов.
+              Критичные узлы: листовая печать и вырубка. На них действует слотирование и резерв 12% сменного времени.
+            </p>
+            <div class="chips">
+              <span class="chip">Горизонт D+1: оперативный</span>
+              <span class="chip">Горизонт W+2: тактический</span>
+              <span class="chip">Горизонт M+1: ресурсный</span>
+              <span class="chip">Kanban для расходников</span>
+              <span class="chip">5S на участках</span>
+              <span class="chip">Стандартизация переналадки</span>
+            </div>
+            <p class="hint">Контроль сроков: ежедневный cut-off по новым заказам в 12:00, после него запуск переносится на следующий плановый слот.</p>
+          </article>
+          <article class="planning-card reveal">
+            <h3>Ключевые KPI производства</h3>
+            <div class="kpi-grid">
+              <div class="kpi-card">
+                <strong>OEE 78%</strong>
+                <span>Целевой диапазон 76-82% по парку основного оборудования.</span>
+              </div>
+              <div class="kpi-card">
+                <strong>95% в срок</strong>
+                <span>Доля заказов, отгруженных в подтвержденную дату.</span>
+              </div>
+              <div class="kpi-card">
+                <strong>Брак 1,6%</strong>
+                <span>Фактический уровень при целевом пределе до 2%.</span>
+              </div>
+              <div class="kpi-card">
+                <strong>24 мин</strong>
+                <span>Среднее время переналадки на листовом участке.</span>
+              </div>
+            </div>
+            <div class="roles-grid">
+              <div class="role">
+                <strong>Диспетчер</strong>
+                <span>Формирует сменный план, приоритеты и последовательность запусков.</span>
+              </div>
+              <div class="role">
+                <strong>Технолог</strong>
+                <span>Утверждает техкарты, допуски и параметры производственного режима.</span>
+              </div>
+              <div class="role">
+                <strong>Оператор</strong>
+                <span>Ведет процесс на линии, фиксирует отклонения и причины простоев.</span>
+              </div>
+              <div class="role">
+                <strong>ОТК</strong>
+                <span>Проводит выборочный контроль AQL и подтверждает выпуск партии.</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Контроль качества -->
+    <section class="section" id="quality">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Система соответствия</p>
+          <h2>Контроль качества</h2>
+          <p>Контроль работает по трем уровням: вход, процесс, выход. Применяются чек-листы и выборка AQL для партий.</p>
+        </div>
+        <div class="quality-grid">
+          <article class="planning-card reveal">
+            <h3>Контрольные параметры</h3>
+            <p>Основные допуски: смещение реза ±1 мм, отклонение фальца ±1,5 мм, цветовое отклонение в пределах производственного профиля.</p>
+            <p class="hint">Рекламации принимаются в течение 5 рабочих дней после отгрузки при сохранении контрольных образцов.</p>
+          </article>
+          <article class="planning-card reveal">
+            <h3>Регламент проверки</h3>
+            <div class="accordion" aria-label="Этапы контроля качества">
+              <div class="acc-item">
+                <button class="acc-trigger" type="button" aria-expanded="false">
+                  <span>Этапы контроля качества</span>
+                  <span class="acc-icon">▼</span>
+                </button>
+                <div class="acc-panel">
+                  <div class="acc-content">
+                    <ul>
+                      <li>Входной контроль: соответствие макета, материалов и техкарты.</li>
+                      <li>Операционный контроль: первые листы, середина тиража, фиксация статуса оператором и ОТК.</li>
+                      <li>Финальный контроль: геометрия, цвет, комплектность, маркировка и упаковка.</li>
+                      <li>Выборочный контроль AQL: уровень II, нормальный режим, протокол по каждой партии.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Оборудование -->
+    <section class="section" id="equipment">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Технический парк</p>
+          <h2>Оборудование</h2>
+          <p>Комплект оборудования закрывает полный цикл: печать, постпечатные операции, упаковка и контроль выходной партии.</p>
+        </div>
+        <div class="table-wrap reveal">
+          <table>
+            <thead>
+              <tr>
+                <th>Тип оборудования</th>
+                <th>Назначение</th>
+                <th>Производительность</th>
+                <th>Формат</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Листовая офсетная машина 4+0</td>
+                <td>Тиражная печать буклетов, каталогов, листовой продукции</td>
+                <td>до 13 000 листов/час</td>
+                <td>до B2</td>
+              </tr>
+              <tr>
+                <td>Цифровая тонерная машина</td>
+                <td>Короткие тиражи, оперативные доработки, персонализация</td>
+                <td>до 4 500 листов/час</td>
+                <td>SRA3</td>
+              </tr>
+              <tr>
+                <td>Широкоформатный принтер</td>
+                <td>Плакаты, постеры, POSM, витринные материалы</td>
+                <td>до 110 м²/час</td>
+                <td>ширина до 1600 мм</td>
+              </tr>
+              <tr>
+                <td>Линия фальцовки и резки</td>
+                <td>Постпечатная обработка и подготовка комплектов</td>
+                <td>до 24 000 листов/час</td>
+                <td>до B2</td>
+              </tr>
+              <tr>
+                <td>Вырубной пресс</td>
+                <td>Изготовление упаковки, заготовок и фигурной продукции</td>
+                <td>до 6 200 листов/час</td>
+                <td>до 720 × 1020 мм</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Сроки и SLA -->
+    <section class="section" id="sla">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Условия исполнения</p>
+          <h2>Сроки и SLA</h2>
+          <p>Итоговый срок фиксируется после проверки входящих материалов и подтверждения окна на линии.</p>
+        </div>
+        <div class="table-wrap reveal">
+          <table>
+            <thead>
+              <tr>
+                <th>Продукт</th>
+                <th>Тираж</th>
+                <th>Стандартный срок</th>
+                <th>Срочный SLA</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Визитки</td>
+                <td>200-5 000 экз.</td>
+                <td>2 рабочих дня</td>
+                <td>24 часа (коэф. +35%)</td>
+              </tr>
+              <tr>
+                <td>Буклеты A4/A5</td>
+                <td>300-20 000 экз.</td>
+                <td>3-4 рабочих дня</td>
+                <td>48 часов (коэф. +30%)</td>
+              </tr>
+              <tr>
+                <td>Каталоги (скрепка/КБС)</td>
+                <td>150-3 000 экз.</td>
+                <td>5-7 рабочих дней</td>
+                <td>72 часа (по согласованию)</td>
+              </tr>
+              <tr>
+                <td>Упаковка</td>
+                <td>500-30 000 шт.</td>
+                <td>7-10 рабочих дней</td>
+                <td>4-5 рабочих дней (+40%)</td>
+              </tr>
+              <tr>
+                <td>Широкоформатная печать</td>
+                <td>от 10 м²</td>
+                <td>1-2 рабочих дня</td>
+                <td>в день обращения (при свободном слоте)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="urgency-note reveal">Срочность возможна при выполнении условий: макет утвержден до 12:00, предоплата подтверждена, материалы доступны на складе.</div>
+      </div>
+    </section>
+
+    <!-- Заказ и документы -->
+    <section class="section" id="order">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Регламент запуска</p>
+          <h2>Заказ и документы</h2>
+          <p>Для старта в производство требуются ТЗ, макет и реквизиты. Документооборот: договор, счет, УПД/акт.</p>
+        </div>
+        <div class="order-grid">
+          <article class="planning-card reveal">
+            <h3>Как оформить заказ</h3>
+            <ul class="check-list">
+              <li>Передайте ТЗ: продукт, тираж, материал, сроки, постпечатные операции.</li>
+              <li>Приложите макет в утвержденном формате и контакт для согласования.</li>
+              <li>Получите подтверждение стоимости, срока и производственного окна.</li>
+              <li>Подтвердите запуск: договор/счет, затем заказ уходит в работу.</li>
+            </ul>
+
+            <div class="accordion" aria-label="Требования к макетам">
+              <div class="acc-item">
+                <button class="acc-trigger" type="button" aria-expanded="false">
+                  <span>Требования к макетам</span>
+                  <span class="acc-icon">▼</span>
+                </button>
+                <div class="acc-panel">
+                  <div class="acc-content">
+                    <ul>
+                      <li>Форматы: PDF/X-1a, PDF/X-4, AI, EPS (шрифты в кривых или приложены).</li>
+                      <li>Цвет: CMYK, профиль по техкарте; RGB-файлы в тираж без конвертации не запускаются.</li>
+                      <li>Вылеты: 3 мм, безопасное поле: 4 мм от линии реза.</li>
+                      <li>Растр: не ниже 300 dpi в фактическом размере.</li>
+                      <li>Черный текст: 100K, суммарное красочное покрытие не выше 300%.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <div class="form-box reveal" aria-label="Форма заявки">
+            <h3>Форма заявки (демо)</h3>
+            <p class="form-note">Учебный режим: данные не отправляются и не сохраняются.</p>
+            <form id="requestForm">
+              <div class="field">
+                <label for="company">Компания</label>
+                <input id="company" name="company" type="text" required placeholder="ООО «Контрагент»" />
+              </div>
+              <div class="field">
+                <label for="product">Продукт</label>
+                <select id="product" name="product" required>
+                  <option value="">Выберите тип продукции</option>
+                  <option>Визитки</option>
+                  <option>Буклеты</option>
+                  <option>Каталоги</option>
+                  <option>Упаковка</option>
+                  <option>Широкоформатная печать</option>
+                  <option>Постпечатная обработка</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="tirage">Тираж</label>
+                <input id="tirage" name="tirage" type="text" required placeholder="Например: 3000 экз." />
+              </div>
+              <div class="field">
+                <label for="deadline">Требуемая дата отгрузки</label>
+                <input id="deadline" name="deadline" type="date" required />
+              </div>
+              <div class="field">
+                <label for="comment">Комментарий к заказу</label>
+                <textarea id="comment" name="comment" placeholder="Особые требования, упаковка, постпечатные операции"></textarea>
+              </div>
+              <button class="btn btn-primary" type="submit">Сформировать заявку</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Контакты -->
+    <section class="section" id="contacts">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Коммуникации портала</p>
+          <h2>Контакты</h2>
+          <p>Без персональных контактов: только общие каналы взаимодействия по договору.</p>
+        </div>
+        <div class="contacts-grid stagger">
+          <article class="contact-item reveal" style="--i:0;">
+            <strong>Общая почта</strong>
+            <p>orders@promprint-kontur.ru</p>
+          </article>
+          <article class="contact-item reveal" style="--i:1;">
+            <strong>Телефон</strong>
+            <p>+7 (495) 200-44-20</p>
+          </article>
+          <article class="contact-item reveal" style="--i:2;">
+            <strong>Адрес производства</strong>
+            <p>г. Москва, Промышленный проезд, 14</p>
+          </article>
+          <article class="contact-item reveal" style="--i:3;">
+            <strong>Часы работы</strong>
+            <p>Пн-Сб: 08:00-22:00, прием заявок 24/7 по e-mail</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Модальное окно демо-заявки -->
+  <div class="modal" id="demoModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <h3 id="modalTitle">Заявка сформирована (демо)</h3>
+      <p id="modalText">Отправка на сервер отключена. Для реального запуска используйте согласованные каналы по договору.</p>
+      <button class="btn btn-primary" id="modalClose" type="button">Закрыть</button>
+    </div>
+  </div>
+
+  <script>
+    // Якорная навигация с учетом высоты липкой шапки.
+    const topbar = document.querySelector(".topbar");
+    const navLinks = Array.from(document.querySelectorAll('.menu a[href^="#"]'));
+
+    navLinks.forEach((link) => {
+      link.addEventListener("click", (event) => {
+        const id = link.getAttribute("href");
+        const target = id ? document.querySelector(id) : null;
+        if (!target) return;
+        event.preventDefault();
+        const offset = topbar ? topbar.offsetHeight + 12 : 0;
+        const y = target.getBoundingClientRect().top + window.pageYOffset - offset;
+        window.scrollTo({ top: y, behavior: "smooth" });
+      });
+    });
+
+    // Подсветка активного пункта меню при скролле.
+    const sections = Array.from(document.querySelectorAll("main section[id]"));
+    const navObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const id = entry.target.getAttribute("id");
+          navLinks.forEach((link) => {
+            link.classList.toggle("active", link.getAttribute("href") === `#${id}`);
+          });
+        });
+      },
+      { rootMargin: "-45% 0px -45% 0px", threshold: 0.01 }
+    );
+
+    sections.forEach((section) => navObserver.observe(section));
+
+    // Reveal-анимации появления блоков.
+    const revealObserver = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.16, rootMargin: "0px 0px -8% 0px" }
+    );
+
+    document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
+
+    // Accordion для требований к макетам и этапов контроля качества.
+    document.querySelectorAll(".acc-trigger").forEach((button) => {
+      button.addEventListener("click", () => {
+        const item = button.closest(".acc-item");
+        const panel = item ? item.querySelector(".acc-panel") : null;
+        if (!item || !panel) return;
+
+        const parent = item.parentElement;
+        if (parent) {
+          parent.querySelectorAll(".acc-item.active").forEach((opened) => {
+            if (opened === item) return;
+            opened.classList.remove("active");
+            const openedBtn = opened.querySelector(".acc-trigger");
+            const openedPanel = opened.querySelector(".acc-panel");
+            if (openedBtn) openedBtn.setAttribute("aria-expanded", "false");
+            if (openedPanel) openedPanel.style.maxHeight = "0px";
+          });
+        }
+
+        const isOpen = item.classList.toggle("active");
+        button.setAttribute("aria-expanded", String(isOpen));
+        panel.style.maxHeight = isOpen ? `${panel.scrollHeight}px` : "0px";
+      });
+    });
+
+    // Обновляем высоту раскрытых панелей при ресайзе.
+    window.addEventListener("resize", () => {
+      document.querySelectorAll(".acc-item.active .acc-panel").forEach((panel) => {
+        panel.style.maxHeight = `${panel.scrollHeight}px`;
+      });
+    });
+
+    // Демо-форма и заглушка прайса через единое модальное окно.
+    const form = document.getElementById("requestForm");
+    const priceStub = document.getElementById("priceStub");
+    const modal = document.getElementById("demoModal");
+    const modalClose = document.getElementById("modalClose");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalText = document.getElementById("modalText");
+
+    if (modal && modalClose && modalTitle && modalText) {
+      const openModal = (title, text) => {
+        modalTitle.textContent = title;
+        modalText.textContent = text;
+        modal.classList.add("active");
+      };
+
+      const closeModal = () => modal.classList.remove("active");
+
+      if (form) {
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+          openModal(
+            "Заявка сформирована (демо)",
+            "Отправка на сервер отключена. Для реального запуска используйте согласованные каналы по договору."
+          );
+        });
+      }
+
+      if (priceStub) {
+        priceStub.addEventListener("click", (event) => {
+          event.preventDefault();
+          openModal(
+            "Скачать прайс (заглушка)",
+            "В учебной версии файл прайса не подключен. Кнопка работает как демонстрационная заглушка."
+          );
+        });
+      }
+
+      modalClose.addEventListener("click", closeModal);
+      modal.addEventListener("click", (event) => {
+        if (event.target === modal) closeModal();
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeModal();
+      });
+    }
+
+    // Небольшой 3D-эффект на hero-блоке.
+    const heroShell = document.getElementById("heroShell");
+    if (heroShell && window.matchMedia("(pointer:fine)").matches) {
+      const resetTilt = () => {
+        heroShell.style.transform = "perspective(1200px) rotateX(0deg) rotateY(0deg)";
+      };
+
+      heroShell.addEventListener("mousemove", (event) => {
+        const rect = heroShell.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        const rx = ((y / rect.height) - 0.5) * -4;
+        const ry = ((x / rect.width) - 0.5) * 5;
+        heroShell.style.transform = `perspective(1200px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      });
+
+      heroShell.addEventListener("mouseleave", resetTilt);
+    }
+  </script>
+</body>
+</html>
